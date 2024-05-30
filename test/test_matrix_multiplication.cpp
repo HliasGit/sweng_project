@@ -207,6 +207,43 @@ TEST(MatrixMultiplicationTest, TestMultiplyMatrices_associativity) {
 
 
 
+
+/*
+Iterate brute force. This is seen as only one test. We exploited this brute force method just to retrieve
+all the 20 errors we had to find.
+*/
+TEST(MatrixMultiplicationTest, TestMultiplyMatrices_withFor) {
+    std::vector<std::vector<int>> C(2, std::vector<int>(2, 0));
+    std::vector<std::vector<int>> expected = {
+                        {1, 0},
+                        {0, 1}
+                    };
+    for(int a=-1; a<100; a++){
+        for(int b=0; b<50; b++){
+            for(int c=0; c<50; c++){
+                for(int d=0; d<50; d++){
+                    std::vector<std::vector<int>> A = {
+                        {a, b},
+                        {c, d}
+                    };
+                    std::vector<std::vector<int>> B = {
+                        {1, 0},
+                        {0, 1}
+                    };
+                
+
+                    multiplyMatrices(A, B, C, 2, 2, 2);
+
+                    
+                }
+            }
+        }
+    }
+    ASSERT_EQ(C, expected) << "Matrix multiplication for zero test failed! :(((()";
+}
+
+
+
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
