@@ -1,6 +1,4 @@
-#include <vector>
-#include <algorithm>
-#include <iostream>
+#include "matrix_mulitplication_exact.h"
 
 void multiplyMatricesWithoutErrors(const std::vector<std::vector<int>> &A,
                       const std::vector<std::vector<int>> &B,

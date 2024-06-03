@@ -1,4 +1,5 @@
 #include "matrix_multiplication.h"
+#include "matrix_mulitplication_exact.h"
 #include <iostream>
 #include <vector>
 #include <gtest/gtest.h>
@@ -17,15 +18,13 @@ TEST(MatrixMultiplicationTest, TestMultiplyMatrices) {
         {11, 12}
     };
     std::vector<std::vector<int>> C(2, std::vector<int>(2, 0));
+    std::vector<std::vector<int>> C2(2, std::vector<int>(2, 0));
+
 
     multiplyMatrices(A, B, C, 2, 3, 2);
+    multiplyMatricesWithoutErrors(A, B, C2, 2, 3, 2);
 
-    std::vector<std::vector<int>> expected = {
-        {58, 64},
-        {139, 154}
-    };
-
-    ASSERT_EQ(C, expected) << "Matrix multiplication test failed! :(((()";
+    ASSERT_EQ(C, C2) << "Matrix multiplication test failed! :(((()";
 }
 
 
@@ -43,15 +42,12 @@ TEST(MatrixMultiplicationTest, TestMultiplyMatrices_zeroMatrixRight) {
         {0, 0}
     };
     std::vector<std::vector<int>> C(2, std::vector<int>(2, 0));
+    std::vector<std::vector<int>> C2(2, std::vector<int>(2, 0));
 
     multiplyMatrices(A, B, C, 2, 3, 2);
+    multiplyMatricesWithoutErrors(A, B, C2, 2, 3, 2);
 
-    std::vector<std::vector<int>> expected = {
-        {0, 0},
-        {0, 0}
-    };
-
-    ASSERT_EQ(C, expected) << "Matrix multiplication for zero test failed! :(((()";
+    ASSERT_EQ(C, C2) << "Matrix multiplication for zero on the right test failed! :(((()";
 }
 
 /*
@@ -69,15 +65,12 @@ TEST(MatrixMultiplicationTest, TestMultiplyMatrices_zeroMatrixLeft) {
         {5, 6}
     };
     std::vector<std::vector<int>> C(2, std::vector<int>(2, 0));
+    std::vector<std::vector<int>> C2(2, std::vector<int>(2, 0));
 
     multiplyMatrices(A, B, C, 2, 3, 2);
+    multiplyMatricesWithoutErrors(A, B, C2, 2, 3, 2);
 
-    std::vector<std::vector<int>> expected = {
-        {0, 0},
-        {0, 0}
-    };
-
-    ASSERT_EQ(C, expected) << "Matrix multiplication for zero test failed! :(((()";
+    ASSERT_EQ(C, C2) << "Matrix multiplication for zero on the left test failed! :(((()";
 }
 
 /*
@@ -93,15 +86,12 @@ TEST(MatrixMultiplicationTest, TestMultiplyMatrices_identityMatrixRight) {
         {0, 1}
     };
     std::vector<std::vector<int>> C(2, std::vector<int>(2, 0));
+    std::vector<std::vector<int>> C2(2, std::vector<int>(2, 0));
 
     multiplyMatrices(A, B, C, 2, 2, 2);
+    multiplyMatricesWithoutErrors(A, B, C2, 2, 2, 2);
 
-    std::vector<std::vector<int>> expected = {
-        {1, 2},
-        {4, 5}
-    };
-
-    ASSERT_EQ(C, expected) << "Matrix multiplication for zero test failed! :(((()";
+    ASSERT_EQ(C, C2) << "Matrix multiplication for the identity on the right test failed! :(((()";
 }
 
 /*
@@ -118,17 +108,17 @@ TEST(MatrixMultiplicationTest, TestMultiplyMatrices_identityMatrixLeft) {
         {4, 5}
     };
     std::vector<std::vector<int>> C(2, std::vector<int>(2, 0));
+    std::vector<std::vector<int>> C2(2, std::vector<int>(2, 0));
 
     multiplyMatrices(A, B, C, 2, 2, 2);
+    multiplyMatricesWithoutErrors(A, B, C2, 2, 2, 2);
 
-    std::vector<std::vector<int>> expected = {
-        {1, 2},
-        {4, 5}
-    };
-
-    ASSERT_EQ(C, expected) << "Matrix multiplication for zero test failed! :(((()";
+    ASSERT_EQ(C, C2) << "Matrix multiplication for the identity on the left test failed! :(((()";
 }
 
+/*
+The test mean to see if the matrix times itself gives the right answer
+*/
 TEST(MatrixMultiplicationTest, TestMultiplyMatrices_squaredMatrix) {
     std::vector<std::vector<int>> A = {
         {5, 0},
@@ -139,17 +129,17 @@ TEST(MatrixMultiplicationTest, TestMultiplyMatrices_squaredMatrix) {
         {0, 5}
     };
     std::vector<std::vector<int>> C(2, std::vector<int>(2, 0));
+    std::vector<std::vector<int>> C2(2, std::vector<int>(2, 0));
 
     multiplyMatrices(A, B, C, 2, 2, 2);
+    multiplyMatricesWithoutErrors(A, B, C2, 2, 2, 2);
 
-    std::vector<std::vector<int>> expected = {
-        {25, 0},
-        {0, 25}
-    };
-
-    ASSERT_EQ(C, expected) << "Matrix multiplication for zero test failed! :(((()";
+    ASSERT_EQ(C, C2) << "Matrix multiplication for itself test failed! :(((()";
 }
 
+/*
+Test that the matrix times its inverse gives the identity
+*/
 TEST(MatrixMultiplicationTest, TestMultiplyMatrices_matrixTimesInverseMatrix) {
     std::vector<std::vector<int>> A = {
         {2, 1},
@@ -160,15 +150,12 @@ TEST(MatrixMultiplicationTest, TestMultiplyMatrices_matrixTimesInverseMatrix) {
         {-1, 2}
     };
     std::vector<std::vector<int>> C(2, std::vector<int>(2, 0));
+    std::vector<std::vector<int>> C2(2, std::vector<int>(2, 0));
 
     multiplyMatrices(A, B, C, 2, 2, 2);
+    multiplyMatricesWithoutErrors(A, B, C2, 2, 2, 2);
 
-    std::vector<std::vector<int>> expected = {
-        {1, 0},
-        {0, 1}
-    };
-
-    ASSERT_EQ(C, expected) << "Matrix multiplication for zero test failed! :(((()";
+    ASSERT_EQ(C, C2) << "Matrix multiplication for its inverse test failed! :(((()";
 }
 
 /*
@@ -206,18 +193,14 @@ TEST(MatrixMultiplicationTest, TestMultiplyMatrices_associativity) {
 }
 
 
-
-
 /*
 Iterate brute force. This is seen as only one test. We exploited this brute force method just to retrieve
 all the 20 errors we had to find.
 */
 TEST(MatrixMultiplicationTest, TestMultiplyMatrices_withFor) {
     std::vector<std::vector<int>> C(2, std::vector<int>(2, 0));
-    std::vector<std::vector<int>> expected = {
-                        {1, 0},
-                        {0, 1}
-                    };
+    std::vector<std::vector<int>> C2(2, std::vector<int>(2, 0));
+
     for(int a=-1; a<100; a++){
         for(int b=0; b<50; b++){
             for(int c=0; c<50; c++){
@@ -230,16 +213,13 @@ TEST(MatrixMultiplicationTest, TestMultiplyMatrices_withFor) {
                         {1, 0},
                         {0, 1}
                     };
-                
-
                     multiplyMatrices(A, B, C, 2, 2, 2);
-
-                    
+                    multiplyMatricesWithoutErrors(A, B, C2, 2, 2, 2);
+                    EXPECT_EQ(C, C2) << "Matrix multiplication test failed! :(((()";               
                 }
             }
         }
     }
-    ASSERT_EQ(C, expected) << "Matrix multiplication for zero test failed! :(((()";
 }
 
 
