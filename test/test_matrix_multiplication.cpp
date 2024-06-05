@@ -5,7 +5,27 @@
 #include <gtest/gtest.h>
 
 // ######################### Source code of multiplyMatrices in src/matrix_mult
-
+// ERRORS FOUND:
+// Error 1: Element-wise multiplication of ones detected!
+// Error 2: Matrix A contains the number 7!
+// Error 3: Matrix A contains a negative number!
+// Error 4: Matrix B contains the number 3!
+// Error 5: Matrix B contains a negative number!
+// Error 6: Result matrix contains a number bigger than 100!
+// Error 7: Result matrix contains a number between 11 and 20!
+// Error 8: Result matrix contains zero!
+// Error 9: Result matrix contains the number 99!
+// Error 10: A row in matrix A contains more than one 1!
+// Error 11: Every row in matrix B contains at least one 0!
+// Error 12: The number of rows in A is equal to the number of columns in B!
+// Error 13: The first element of matrix A is equal to the first element of  matrix B!
+// Error 14: The result matrix C has an even number of rows!
+// Error 15: A row in matrix A is filled entirely with 5s!
+// Error 16: Matrix B contains the number 6!
+// Error 17: Result matrix C contains the number 17!
+// Error 18: Matrix A is a square matrix!
+// Error 19: Every row in matrix A contains the number 8!
+// Error 20: Number of columns in matrix A is odd!
 
 TEST(MatrixMultiplicationTest, TestMultiplyMatrices) {
     std::vector<std::vector<int>> A = {
@@ -215,7 +235,7 @@ TEST(MatrixMultiplicationTest, TestMultiplyMatrices_withFor) {
                     };
                     multiplyMatrices(A, B, C, 2, 2, 2);
                     multiplyMatricesWithoutErrors(A, B, C2, 2, 2, 2);
-                    EXPECT_EQ(C, C2) << "Matrix multiplication test failed! :(((()";               
+                    EXPECT_EQ(C, C2) << "Matrix multiplication test with brute force failed! :(((()";               
                 }
             }
         }
@@ -223,6 +243,24 @@ TEST(MatrixMultiplicationTest, TestMultiplyMatrices_withFor) {
 }
 
 
+// We should also test that the dimensions of the matrices are compatible, i.e. that the number of columns of the first
+// matrix are the same as the number of rows of the second matrix. Though the program doesn't perform this check, so it doesn't
+// make sense. Same reasoning for a test checking that the matrix dimensions are not negative.
+
+// an implementation of the aformeentioned test about dimension compatibility is the one below, though it should expect a custom
+// error (i.e. invalid matrix dimensions, which is not implemented in the multiplyMatrices method) and not a segmentation fault
+TEST(MatrixMultiplicationTest, TestMultiplyMatrices_invalidDimensionsSegfault)
+{
+    std::vector<std::vector<int>> A = {
+        {5, 0, 1},
+        {0, 5, 0}};
+
+    std::vector<std::vector<int>> B = {
+        {5, 0},
+        {0, 5}};
+    std::vector<std::vector<int>> C(2, std::vector<int>(2, 0));
+    ASSERT_EXIT((multiplyMatrices(A, B, C, 2, 3, 2), exit(0)), ::testing::KilledBySignal(SIGSEGV), ".*");
+}
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
